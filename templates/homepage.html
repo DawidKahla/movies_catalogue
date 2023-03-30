@@ -4,15 +4,18 @@
 
 <div class="row">
    <div class="col-lg-12 text-center">
-       <h1 class="mt-5">Witaj w mojej filmotece</h1>
-       <p class="lead">Znajdziesz tutaj tytuły warte zobaczenia!</p>
+       <h1 class="mt-5">Welcome ladies and gentlemen</h1>
+       <p class="lead">Best films here!</p>
    </div>
    <div class="col-lg-12 mb-4">
-    <a href="{{ url_for('homepage', list_name='now_playing') }}" class="btn btn-outline-info">Now Playing</a>
-    <a href="{{ url_for('homepage', list_name='popular') }}" class="btn btn-outline-info">Popular</a>
-    <a href="{{ url_for('homepage', list_name='top_rated') }}" class="btn btn-outline-info">Top Rated</a>
-    <a href="{{ url_for('homepage', list_name='upcoming') }}" class="btn btn-outline-info">Upcoming</a>
-    </div>
+    {% for type in list_of_types %}
+    {% if list_name == type %}
+    <a href="{{ url_for('homepage', list_name=type) }}" class="btn btn-outline-info active">{{ type.replace('_', ' ').title() }}</a>
+    {% else %}
+    <a href="{{ url_for('homepage', list_name=type) }}" class="btn btn-outline-info">{{ type.replace('_', ' ').title() }}</a>
+    {% endif %}
+    {% endfor %}
+  </div>
    {% for movie in movies %}
    <div class="col-lg-3 col-md-6 mb-4">
        <div class="card h-100">
