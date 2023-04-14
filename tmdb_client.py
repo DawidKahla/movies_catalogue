@@ -10,14 +10,17 @@ API_token = api_token.get_api_token()
 list_of_types = ["popular", "upcoming", "top_rated", "now_playing"]
 
 
-def get_movies_list(list_name="popular"):
-    url = f"https://api.themoviedb.org/3/movie/{list_name}"
+def call_tmdb_api(endpoint):
+    full_url = f"https://api.themoviedb.org/3/{endpoint}"
     params = {
         "api_key": API_token,
-        # "language": "pl-PL",
     }
-    response = requests.get(url, params=params)
+    response = requests.get(full_url, params=params)
     return response.json()
+
+
+def get_movies_list(list_name="popular"):
+    return call_tmdb_api(f"movie/{list_name}")
 
 
 def get_poster_url(poster_api_path, size="w342"):
@@ -32,20 +35,8 @@ def get_movies(how_many, list_name="popular"):
 
 
 def get_single_movie(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}"
-    params = {
-        "api_key": API_token,
-        # "language": "pl-PL",
-    }
-    response = requests.get(url, params=params)
-    return response.json()
+    return call_tmdb_api(f"movie/{movie_id}")
 
 
 def get_single_movie_cast(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}/credits"
-    params = {
-        "api_key": API_token,
-        # "language": "pl-PL",
-    }
-    response = requests.get(url, params=params)
-    return response.json()["cast"]
+    return call_tmdb_api(f"movie/{movie_id}/credits")["cast"]
